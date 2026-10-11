@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Marriage Green Card Interview Practice</title>
+<style>
+:root {
+  --bg: #f4f1eb;
+  --card: #fffdf8;
+  --text: #202124;
+  --muted: #6b6b6b;
+  --line: #d8d2c8;
+  --accent: #1f4f46;
+  --accent2: #dfece8;
+  --danger: #9e3c34;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: linear-gradient(180deg, #f7f4ee 0%, #eee9df 100%);
+  color: var(--text);
+  min-height: 100vh;
+}
+.app {
+  width: min(920px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 34px 0 50px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+h1 {
+  margin: 0;
+  font-size: clamp(28px, 5vw, 46px);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+.subtitle {
+  margin-top: 10px;
+  color: var(--muted);
+  max-width: 680px;
+  line-height: 1.55;
+}
+.counter {
+  flex: 0 0 auto;
+  background: var(--accent);
+  color: white;
+  border-radius: 999px;
+  padding: 10px 15px;
+  font-weight: 700;
+}
+.toolbar {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+select, button, textarea {
+  font: inherit;
+}
+select, .toolbar button, .actions button {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--text);
+  padding: 12px 14px;
+}
+button {
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+}
+button:hover { transform: translateY(-1px); box-shadow: 0 5px 15px rgba(0,0,0,.07); }
+button.primary {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+button.secondary {
+  background: var(--accent2);
+  border-color: transparent;
+  color: var(--accent);
+}
+button.danger {
+  color: var(--danger);
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  min-height: 420px;
+  padding: clamp(24px, 5vw, 52px);
+  box-shadow: 0 18px 50px rgba(67, 58, 45, .09);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.badge {
+  background: var(--accent2);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 7px 10px;
+  font-weight: 700;
+}
+.question {
+  font-size: clamp(28px, 4.6vw, 46px);
+  line-height: 1.22;
+  letter-spacing: -0.025em;
+  margin: 38px 0;
+}
+.answer-area {
+  display: none;
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
+.answer-area.show { display: block; }
+.answer-area label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+textarea {
+  width: 100%;
+  min-height: 110px;
+  resize: vertical;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: white;
+}
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+.progress-wrap {
+  margin-top: 20px;
+  background: rgba(255,255,255,.7);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px;
+}
+.progress-row {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 9px;
+}
+.progress {
+  height: 10px;
+  background: #ddd8cf;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress > div {
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  transition: width .25s ease;
+}
+.footer-note {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+  margin-top: 16px;
+}
+@media (max-width: 700px) {
+  .header { flex-direction: column; }
+  .toolbar { grid-template-columns: 1fr; }
+  .card { min-height: 470px; }
+  .question { margin: 30px 0; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div>
+      <h1>Marriage Green Card Interview Practice</h1>
+      <div class="subtitle">A 320-question practice deck for USCIS adjustment-of-status interviews and consular-processing interviews. Questions are shown one at a time in random order.</div>
+    </div>
+    <div class="counter"><span id="currentId">1</span> / 320</div>
+  </div>
+
+  <div class="toolbar">
+    <select id="categoryFilter" aria-label="Filter by category">
+      <option value="all">All Categories</option>
+    </select>
+    <select id="modeSelect" aria-label="Practice mode">
+      <option value="random">Random Mode</option>
+      <option value="sequential">Sequential Mode</option>
+      <option value="unmastered">Unmastered Only</option>
+    </select>
+    <button class="danger" id="resetBtn">Reset Progress</button>
+  </div>
+
+  <main class="card">
+    <div>
+      <div class="meta">
+        <span class="badge" id="categoryBadge"></span>
+        <span id="questionNumber"></span>
+      </div>
+      <div class="question" id="questionText"></div>
+    </div>
+
+    <div>
+      <div class="answer-area" id="answerArea">
+        <label for="notes">Your answer notes</label>
+        <textarea id="notes" placeholder="Write key facts, dates, names, and evidence you want to remember..."></textarea>
+      </div>
+
+      <div class="actions">
+        <button id="prevBtn">Previous</button>
+        <button id="toggleNotesBtn" class="secondary">Show Notes</button>
+        <button id="masterBtn">Mark as Mastered</button>
+        <button id="nextBtn" class="primary">Next Question</button>
+      </div>
+    </div>
+  </main>
+
+  <div class="progress-wrap">
+    <div class="progress-row">
+      <span>Mastered</span>
+      <strong><span id="masteredCount">0</span> / 320</strong>
+    </div>
+    <div class="progress"><div id="progressBar"></div></div>
+  </div>
+
+  <div class="footer-note">
+    This tool is for interview practice, not for memorizing scripted answers. Keep dates, addresses, immigration history, and objective facts consistent with the forms and supporting documents actually filed.
+  </div>
+</div>
+
+<script>
+const questions = [{"id": 1, "category": "Basic Information", "question": "What is your spouse’s full legal name?"}, {"id": 2, "category": "Basic Information", "question": "Does your spouse use an English name, Chinese name, nickname, or former name?"}, {"id": 3, "category": "Basic Information", "question": "What is your spouse’s date of birth?"}, {"id": 4, "category": "Basic Information", "question": "Where was your spouse born?"}, {"id": 5, "category": "Basic Information", "question": "What nationality does your spouse have, and what passport does your spouse currently hold?"}, {"id": 6, "category": "Basic Information", "question": "Where does your spouse currently live?"}, {"id": 7, "category": "Basic Information", "question": "What is your spouse’s current phone number?"}, {"id": 8, "category": "Basic Information", "question": "What email address does your spouse use most often?"}, {"id": 9, "category": "Basic Information", "question": "What does your spouse currently do for work or study?"}, {"id": 10, "category": "Basic Information", "question": "What is the name of your spouse’s employer, business, or school?"}, {"id": 11, "category": "Basic Information", "question": "What time does your spouse usually start work, class, or daily activities?"}, {"id": 12, "category": "Basic Information", "question": "What jobs has your spouse held in the past?"}, {"id": 13, "category": "Basic Information", "question": "What is your spouse’s highest level of education?"}, {"id": 14, "category": "Basic Information", "question": "Where did your spouse attend college or graduate school?"}, {"id": 15, "category": "Basic Information", "question": "What languages does your spouse speak?"}, {"id": 16, "category": "How You Met", "question": "When did you first become aware of each other?"}, {"id": 17, "category": "How You Met", "question": "How did you meet?"}, {"id": 18, "category": "How You Met", "question": "Who contacted whom first?"}, {"id": 19, "category": "How You Met", "question": "What did the first message say?"}, {"id": 20, "category": "How You Met", "question": "Why did you decide to reply?"}, {"id": 21, "category": "How You Met", "question": "What was your first impression after seeing your spouse’s profile, photograph, or social media?"}, {"id": 22, "category": "How You Met", "question": "When did you first have a real conversation?"}, {"id": 23, "category": "How You Met", "question": "How long did your first substantial conversation last?"}, {"id": 24, "category": "How You Met", "question": "What did you talk about at the beginning?"}, {"id": 25, "category": "How You Met", "question": "How often did you communicate at first?"}, {"id": 26, "category": "How You Met", "question": "What apps or platforms did you use to communicate?"}, {"id": 27, "category": "How You Met", "question": "Who usually initiated the conversations?"}, {"id": 28, "category": "How You Met", "question": "When did you begin to feel that the relationship was more than friendship?"}, {"id": 29, "category": "How You Met", "question": "What first attracted you to your spouse?"}, {"id": 30, "category": "How You Met", "question": "Why do you think your spouse became interested in you?"}, {"id": 31, "category": "First In-Person Meeting", "question": "What was the date of your first in-person meeting?"}, {"id": 32, "category": "First In-Person Meeting", "question": "In what city did you first meet in person?"}, {"id": 33, "category": "First In-Person Meeting", "question": "Where exactly did you meet?"}, {"id": 34, "category": "First In-Person Meeting", "question": "Who arrived first?"}, {"id": 35, "category": "First In-Person Meeting", "question": "What was your spouse wearing that day?"}, {"id": 36, "category": "First In-Person Meeting", "question": "What were you wearing that day?"}, {"id": 37, "category": "First In-Person Meeting", "question": "What did you do during your first meeting?"}, {"id": 38, "category": "First In-Person Meeting", "question": "Where did you eat?"}, {"id": 39, "category": "First In-Person Meeting", "question": "Who paid for the meal or activity?"}, {"id": 40, "category": "First In-Person Meeting", "question": "How long did the first meeting last?"}, {"id": 41, "category": "First In-Person Meeting", "question": "Who contacted the other person first after the meeting?"}, {"id": 42, "category": "First In-Person Meeting", "question": "Did your impression of your spouse change after meeting in person?"}, {"id": 43, "category": "First In-Person Meeting", "question": "What did you say when you said goodbye after the first meeting?"}, {"id": 44, "category": "First In-Person Meeting", "question": "How long was it before you met again?"}, {"id": 45, "category": "First In-Person Meeting", "question": "Do you have photographs, receipts, tickets, reservations, or messages from the first meeting?"}, {"id": 46, "category": "Relationship Development", "question": "When did you officially consider yourselves a couple?"}, {"id": 47, "category": "Relationship Development", "question": "Who first suggested defining the relationship?"}, {"id": 48, "category": "Relationship Development", "question": "Did that conversation happen in person, by text, by phone, or by video?"}, {"id": 49, "category": "Relationship Development", "question": "Do you celebrate a relationship anniversary?"}, {"id": 50, "category": "Relationship Development", "question": "Where did you take your first trip together?"}, {"id": 51, "category": "Relationship Development", "question": "Who planned the trip?"}, {"id": 52, "category": "Relationship Development", "question": "Who paid for the trip?"}, {"id": 53, "category": "Relationship Development", "question": "What do you most enjoy doing together?"}, {"id": 54, "category": "Relationship Development", "question": "What interests do you share?"}, {"id": 55, "category": "Relationship Development", "question": "In what ways are your personalities different?"}, {"id": 56, "category": "Relationship Development", "question": "What was your first serious disagreement about?"}, {"id": 57, "category": "Relationship Development", "question": "How did you resolve that disagreement?"}, {"id": 58, "category": "Relationship Development", "question": "What was the longest period during which you did not communicate?"}, {"id": 59, "category": "Relationship Development", "question": "Why did you not communicate during that period?"}, {"id": 60, "category": "Relationship Development", "question": "How often do you normally call or video-chat?"}, {"id": 61, "category": "Decision to Marry", "question": "When did you first discuss marriage?"}, {"id": 62, "category": "Decision to Marry", "question": "Who first brought up marriage?"}, {"id": 63, "category": "Decision to Marry", "question": "Why did you decide to marry this person?"}, {"id": 64, "category": "Decision to Marry", "question": "How much time passed between meeting and deciding to marry?"}, {"id": 65, "category": "Decision to Marry", "question": "Why did you choose to marry at that particular time?"}, {"id": 66, "category": "Decision to Marry", "question": "Did you ever discuss delaying or not going forward with the marriage?"}, {"id": 67, "category": "Decision to Marry", "question": "Was there a formal proposal?"}, {"id": 68, "category": "Decision to Marry", "question": "Where did the proposal take place?"}, {"id": 69, "category": "Decision to Marry", "question": "Was there an engagement ring?"}, {"id": 70, "category": "Decision to Marry", "question": "Who bought the ring, and approximately how much did it cost?"}, {"id": 71, "category": "Decision to Marry", "question": "When did each family learn about the marriage plans?"}, {"id": 72, "category": "Decision to Marry", "question": "How did each family react?"}, {"id": 73, "category": "Decision to Marry", "question": "Did you discuss a prenuptial agreement?"}, {"id": 74, "category": "Decision to Marry", "question": "Who first suggested a prenuptial agreement?"}, {"id": 75, "category": "Decision to Marry", "question": "Why did you believe a prenuptial agreement was or was not appropriate?"}, {"id": 76, "category": "Decision to Marry", "question": "Who prepared the prenuptial agreement?"}, {"id": 77, "category": "Decision to Marry", "question": "Did each person consult a separate lawyer?"}, {"id": 78, "category": "Decision to Marry", "question": "Was the prenuptial agreement ultimately signed?"}, {"id": 79, "category": "Decision to Marry", "question": "What were your main reasons for getting married?"}, {"id": 80, "category": "Decision to Marry", "question": "What role, if any, did immigration status play in the timing or structure of the marriage?"}, {"id": 81, "category": "Legal Wedding and Ceremony", "question": "What is your legal marriage date?"}, {"id": 82, "category": "Legal Wedding and Ceremony", "question": "Where was the marriage legally registered or solemnized?"}, {"id": 83, "category": "Legal Wedding and Ceremony", "question": "Why did you choose that state, country, or jurisdiction?"}, {"id": 84, "category": "Legal Wedding and Ceremony", "question": "Who handled the marriage-license application?"}, {"id": 85, "category": "Legal Wedding and Ceremony", "question": "How much did the marriage license cost?"}, {"id": 86, "category": "Legal Wedding and Ceremony", "question": "Was the legal wedding conducted online or in person?"}, {"id": 87, "category": "Legal Wedding and Ceremony", "question": "If the wedding was online, where was each spouse physically located?"}, {"id": 88, "category": "Legal Wedding and Ceremony", "question": "Who officiated the wedding?"}, {"id": 89, "category": "Legal Wedding and Ceremony", "question": "Who witnessed or attended the wedding?"}, {"id": 90, "category": "Legal Wedding and Ceremony", "question": "When was the marriage certificate issued?"}, {"id": 91, "category": "Legal Wedding and Ceremony", "question": "Who keeps the original marriage certificate?"}, {"id": 92, "category": "Legal Wedding and Ceremony", "question": "Did you exchange vows?"}, {"id": 93, "category": "Legal Wedding and Ceremony", "question": "What do you remember about your spouse’s vows?"}, {"id": 94, "category": "Legal Wedding and Ceremony", "question": "Did you exchange rings during the ceremony?"}, {"id": 95, "category": "Legal Wedding and Ceremony", "question": "What did you do immediately after the ceremony?"}, {"id": 96, "category": "Legal Wedding and Ceremony", "question": "Do you have photographs or a recording of the ceremony?"}, {"id": 97, "category": "Legal Wedding and Ceremony", "question": "Who took the photographs or recorded the ceremony?"}, {"id": 98, "category": "Legal Wedding and Ceremony", "question": "Why was the legal ceremony small, private, or not attended by family?"}, {"id": 99, "category": "Legal Wedding and Ceremony", "question": "Did you hold a separate celebration or in-person ceremony?"}, {"id": 100, "category": "Legal Wedding and Ceremony", "question": "Why were the legal wedding and the celebration held on different dates or in different places?"}, {"id": 101, "category": "Shared Residence", "question": "Do you currently live together?"}, {"id": 102, "category": "Shared Residence", "question": "When did you begin living together?"}, {"id": 103, "category": "Shared Residence", "question": "If you do not live together, why not?"}, {"id": 104, "category": "Shared Residence", "question": "When do you expect to begin living together on a long-term basis?"}, {"id": 105, "category": "Shared Residence", "question": "What is the full address of your shared or intended residence?"}, {"id": 106, "category": "Shared Residence", "question": "Who rents or owns the home?"}, {"id": 107, "category": "Shared Residence", "question": "Whose names appear on the lease or deed?"}, {"id": 108, "category": "Shared Residence", "question": "How much is the monthly rent or mortgage?"}, {"id": 109, "category": "Shared Residence", "question": "Who usually pays the rent or mortgage?"}, {"id": 110, "category": "Shared Residence", "question": "How many bedrooms and bathrooms are in the home?"}, {"id": 111, "category": "Shared Residence", "question": "What do you see first when you enter the home?"}, {"id": 112, "category": "Shared Residence", "question": "Where is the bedroom located in relation to the entrance?"}, {"id": 113, "category": "Shared Residence", "question": "Which side of the bed do you sleep on?"}, {"id": 114, "category": "Shared Residence", "question": "Which side of the bed does your spouse sleep on?"}, {"id": 115, "category": "Shared Residence", "question": "What color or pattern are the bedsheets?"}, {"id": 116, "category": "Shared Residence", "question": "Whose belongings take up more space in the bathroom?"}, {"id": 117, "category": "Shared Residence", "question": "What shampoo, skincare products, or toiletries does your spouse use?"}, {"id": 118, "category": "Shared Residence", "question": "Who usually takes out the trash?"}, {"id": 119, "category": "Shared Residence", "question": "Who usually does the laundry?"}, {"id": 120, "category": "Shared Residence", "question": "Who usually cooks?"}, {"id": 121, "category": "Shared Residence", "question": "What was the most recent major household item you bought?"}, {"id": 122, "category": "Shared Residence", "question": "Do you have a pet?"}, {"id": 123, "category": "Shared Residence", "question": "What is the pet’s name?"}, {"id": 124, "category": "Shared Residence", "question": "Who usually takes care of the pet?"}, {"id": 125, "category": "Shared Residence", "question": "Do both of you have keys, access codes, or building-entry privileges?"}, {"id": 126, "category": "Daily Life", "question": "What time does your spouse usually wake up?"}, {"id": 127, "category": "Daily Life", "question": "What is the first thing your spouse usually does after waking up?"}, {"id": 128, "category": "Daily Life", "question": "Does your spouse prefer coffee or tea?"}, {"id": 129, "category": "Daily Life", "question": "What type, flavor, or brand of coffee or tea does your spouse prefer?"}, {"id": 130, "category": "Daily Life", "question": "What does your spouse usually eat for breakfast?"}, {"id": 131, "category": "Daily Life", "question": "What is your spouse’s favorite food?"}, {"id": 132, "category": "Daily Life", "question": "What foods does your spouse dislike?"}, {"id": 133, "category": "Daily Life", "question": "Does your spouse have any food allergies or dietary restrictions?"}, {"id": 134, "category": "Daily Life", "question": "Which grocery store does your spouse use most often?"}, {"id": 135, "category": "Daily Life", "question": "What food does your spouse order most frequently for delivery?"}, {"id": 136, "category": "Daily Life", "question": "What time does your spouse usually go to bed?"}, {"id": 137, "category": "Daily Life", "question": "Does your spouse snore?"}, {"id": 138, "category": "Daily Life", "question": "Does your spouse prefer to sleep with the lights fully off, partly on, or with a night-light?"}, {"id": 139, "category": "Daily Life", "question": "What does your spouse usually do on weekends?"}, {"id": 140, "category": "Daily Life", "question": "What television show, movie, podcast, or book has your spouse recently enjoyed?"}, {"id": 141, "category": "Daily Life", "question": "What brand and model of phone does your spouse use?"}, {"id": 142, "category": "Daily Life", "question": "What color or style is your spouse’s phone case?"}, {"id": 143, "category": "Daily Life", "question": "Does your spouse drive, use public transit, walk, or use rideshare services?"}, {"id": 144, "category": "Daily Life", "question": "Has your spouse recently had any health problem or physical discomfort?"}, {"id": 145, "category": "Daily Life", "question": "When was your spouse’s most recent medical appointment, and what was it for?"}, {"id": 146, "category": "Family", "question": "What are the names of your spouse’s parents?"}, {"id": 147, "category": "Family", "question": "Where do your spouse’s parents live?"}, {"id": 148, "category": "Family", "question": "What do or did your spouse’s parents do for work?"}, {"id": 149, "category": "Family", "question": "Have you met your spouse’s parents?"}, {"id": 150, "category": "Family", "question": "When did you first meet your spouse’s parents?"}, {"id": 151, "category": "Family", "question": "If you have not met them, why not?"}, {"id": 152, "category": "Family", "question": "How do you address your spouse’s parents?"}, {"id": 153, "category": "Family", "question": "Does your spouse have brothers or sisters?"}, {"id": 154, "category": "Family", "question": "What are their names?"}, {"id": 155, "category": "Family", "question": "Where do they live, and what do they do?"}, {"id": 156, "category": "Family", "question": "How would you describe your spouse’s relationship with the parents?"}, {"id": 157, "category": "Family", "question": "Have the two families met each other?"}, {"id": 158, "category": "Family", "question": "If the families have not met, why not?"}, {"id": 159, "category": "Family", "question": "Did either family attend the legal wedding or celebration?"}, {"id": 160, "category": "Family", "question": "When did you last communicate with your spouse’s family?"}, {"id": 161, "category": "Family", "question": "When did your spouse last communicate with your family?"}, {"id": 162, "category": "Family", "question": "Do both families know about your immigration plans?"}, {"id": 163, "category": "Family", "question": "Has anything important recently happened in your spouse’s family?"}, {"id": 164, "category": "Family", "question": "Have you attended any important family event with your spouse?"}, {"id": 165, "category": "Family", "question": "Has your spouse attended any holiday, celebration, or family event with your family?"}, {"id": 166, "category": "Important Dates and Events", "question": "How did you celebrate your spouse’s most recent birthday?"}, {"id": 167, "category": "Important Dates and Events", "question": "What birthday gift did you give your spouse?"}, {"id": 168, "category": "Important Dates and Events", "question": "What birthday gift did your spouse give you?"}, {"id": 169, "category": "Important Dates and Events", "question": "What was the most recent holiday you celebrated together?"}, {"id": 170, "category": "Important Dates and Events", "question": "How did you celebrate your wedding anniversary, if applicable?"}, {"id": 171, "category": "Important Dates and Events", "question": "Where did you spend the most recent Christmas, Lunar New Year, Thanksgiving, or other major holiday?"}, {"id": 172, "category": "Important Dates and Events", "question": "When was the last time you ate a meal together?"}, {"id": 173, "category": "Important Dates and Events", "question": "When was your most recent video call?"}, {"id": 174, "category": "Important Dates and Events", "question": "When was your most recent disagreement?"}, {"id": 175, "category": "Important Dates and Events", "question": "What happened after you reconciled?"}, {"id": 176, "category": "Important Dates and Events", "question": "When was your most recent trip together?"}, {"id": 177, "category": "Important Dates and Events", "question": "What was the most recent gift you exchanged?"}, {"id": 178, "category": "Important Dates and Events", "question": "When was the last time you socialized with friends together?"}, {"id": 179, "category": "Important Dates and Events", "question": "What was the most recent major decision you made together?"}, {"id": 180, "category": "Important Dates and Events", "question": "Did you communicate on the day before this interview, and what did you discuss?"}, {"id": 181, "category": "Finances", "question": "Do you have a joint bank account?"}, {"id": 182, "category": "Finances", "question": "When was the joint account opened?"}, {"id": 183, "category": "Finances", "question": "Why did you open, or choose not to open, a joint bank account?"}, {"id": 184, "category": "Finances", "question": "What is the joint account mainly used for?"}, {"id": 185, "category": "Finances", "question": "Who deposits money into the joint account?"}, {"id": 186, "category": "Finances", "question": "What was the most recent transaction in the joint account?"}, {"id": 187, "category": "Finances", "question": "Do you have a joint credit card?"}, {"id": 188, "category": "Finances", "question": "Who is the primary cardholder, and who is the authorized user?"}, {"id": 189, "category": "Finances", "question": "How do you divide ordinary living expenses?"}, {"id": 190, "category": "Finances", "question": "How did you divide wedding, travel, housing, or legal expenses?"}, {"id": 191, "category": "Finances", "question": "Have you filed a joint tax return?"}, {"id": 192, "category": "Finances", "question": "If not, why not?"}, {"id": 193, "category": "Finances", "question": "Do you have joint health, life, auto, renter’s, or other insurance?"}, {"id": 194, "category": "Finances", "question": "Have you named each other as an insurance beneficiary?"}, {"id": 195, "category": "Finances", "question": "Have you listed each other as emergency contacts?"}, {"id": 196, "category": "Finances", "question": "Do you jointly own a car, home, or other major asset?"}, {"id": 197, "category": "Finances", "question": "Do you share a phone plan, subscription, membership, or household account?"}, {"id": 198, "category": "Finances", "question": "Have you transferred money to each other?"}, {"id": 199, "category": "Finances", "question": "Do you discuss major purchases before making them?"}, {"id": 200, "category": "Finances", "question": "Do you know your spouse’s approximate income, major debts, or financial obligations?"}, {"id": 201, "category": "Friends and Social Life", "question": "What is the name of your spouse’s closest friend?"}, {"id": 202, "category": "Friends and Social Life", "question": "Which of your spouse’s friends have you met?"}, {"id": 203, "category": "Friends and Social Life", "question": "Which friends do you know in common?"}, {"id": 204, "category": "Friends and Social Life", "question": "Who knows that you are married?"}, {"id": 205, "category": "Friends and Social Life", "question": "Have you publicly acknowledged the marriage on social media?"}, {"id": 206, "category": "Friends and Social Life", "question": "If not, why not?"}, {"id": 207, "category": "Friends and Social Life", "question": "Has your spouse posted photographs of the two of you?"}, {"id": 208, "category": "Friends and Social Life", "question": "Have you attended a work, school, or professional event with your spouse?"}, {"id": 209, "category": "Friends and Social Life", "question": "Has your spouse attended an event with your friends or colleagues?"}, {"id": 210, "category": "Friends and Social Life", "question": "Who could provide a statement about your relationship?"}, {"id": 211, "category": "Friends and Social Life", "question": "How does that person know both of you?"}, {"id": 212, "category": "Friends and Social Life", "question": "Did that person attend the wedding or celebration?"}, {"id": 213, "category": "Friends and Social Life", "question": "When did you most recently spend time with mutual friends?"}, {"id": 214, "category": "Friends and Social Life", "question": "How do your friends describe your relationship?"}, {"id": 215, "category": "Friends and Social Life", "question": "Have you participated together in charitable, religious, community, social, or professional activities?"}, {"id": 216, "category": "Long-Distance Relationship", "question": "Why are you currently in a long-distance marriage or relationship?"}, {"id": 217, "category": "Long-Distance Relationship", "question": "In which cities or countries does each spouse currently live?"}, {"id": 218, "category": "Long-Distance Relationship", "question": "What is the time difference between your locations?"}, {"id": 219, "category": "Long-Distance Relationship", "question": "What time of day do you usually communicate?"}, {"id": 220, "category": "Long-Distance Relationship", "question": "How many times per week do you normally communicate?"}, {"id": 221, "category": "Long-Distance Relationship", "question": "Do you communicate mainly by text, phone, voice message, or video?"}, {"id": 222, "category": "Long-Distance Relationship", "question": "Who usually initiates contact?"}, {"id": 223, "category": "Long-Distance Relationship", "question": "What has been the longest period without contact?"}, {"id": 224, "category": "Long-Distance Relationship", "question": "Why did that period of limited or no contact occur?"}, {"id": 225, "category": "Long-Distance Relationship", "question": "How do you maintain the relationship while living apart?"}, {"id": 226, "category": "Long-Distance Relationship", "question": "How many times have you met in person during the past year?"}, {"id": 227, "category": "Long-Distance Relationship", "question": "Where did each visit take place?"}, {"id": 228, "category": "Long-Distance Relationship", "question": "Who usually purchases the airline or train tickets?"}, {"id": 229, "category": "Long-Distance Relationship", "question": "Why have you not been able to meet more often?"}, {"id": 230, "category": "Long-Distance Relationship", "question": "What is your next planned visit?"}, {"id": 231, "category": "Long-Distance Relationship", "question": "In what city or country do you plan to live together?"}, {"id": 232, "category": "Long-Distance Relationship", "question": "Who may need to change jobs, studies, or location so that you can live together?"}, {"id": 233, "category": "Long-Distance Relationship", "question": "What would you do if the immigrant visa or adjustment application were delayed or denied?"}, {"id": 234, "category": "Long-Distance Relationship", "question": "Would you remain married if no immigration benefit were available?"}, {"id": 235, "category": "Long-Distance Relationship", "question": "Have you discussed the emotional and practical effects of long-term separation?"}, {"id": 236, "category": "Prior Relationships", "question": "Have you ever been married before?"}, {"id": 237, "category": "Prior Relationships", "question": "Has your spouse ever been married before?"}, {"id": 238, "category": "Prior Relationships", "question": "When did the prior marriage legally end?"}, {"id": 239, "category": "Prior Relationships", "question": "When did the divorce judgment become final?"}, {"id": 240, "category": "Prior Relationships", "question": "Have you met your spouse’s former spouse or partner?"}, {"id": 241, "category": "Prior Relationships", "question": "Does your spouse have children?"}, {"id": 242, "category": "Prior Relationships", "question": "What are the children’s names and ages?"}, {"id": 243, "category": "Prior Relationships", "question": "With whom do the children live?"}, {"id": 244, "category": "Prior Relationships", "question": "What is your relationship with your spouse’s children?"}, {"id": 245, "category": "Prior Relationships", "question": "Does your spouse pay child support or have other continuing obligations?"}, {"id": 246, "category": "Prior Relationships", "question": "When you met, had both of you fully ended your prior relationships?"}, {"id": 247, "category": "Prior Relationships", "question": "Was there any overlap between a prior relationship and your relationship?"}, {"id": 248, "category": "Prior Relationships", "question": "How much does your spouse know about your prior marriage or significant relationships?"}, {"id": 249, "category": "Prior Relationships", "question": "Have you discussed former partners with each other?"}, {"id": 250, "category": "Prior Relationships", "question": "Why did the prior relationship end, and why do you believe this marriage is different?"}, {"id": 251, "category": "Health, Habits, and Personality", "question": "Does your spouse have any chronic illness, physical condition, or old injury?"}, {"id": 252, "category": "Health, Habits, and Personality", "question": "Does your spouse regularly take any medication?"}, {"id": 253, "category": "Health, Habits, and Personality", "question": "Has your spouse had any major surgery?"}, {"id": 254, "category": "Health, Habits, and Personality", "question": "Does your spouse have any strong fears or phobias?"}, {"id": 255, "category": "Health, Habits, and Personality", "question": "What is your spouse’s most noticeable habit?"}, {"id": 256, "category": "Health, Habits, and Personality", "question": "How does your spouse usually behave under stress?"}, {"id": 257, "category": "Health, Habits, and Personality", "question": "How does your spouse handle anger?"}, {"id": 258, "category": "Health, Habits, and Personality", "question": "What sport or physical activity does your spouse enjoy most?"}, {"id": 259, "category": "Health, Habits, and Personality", "question": "Does your spouse follow any religion or spiritual practice?"}, {"id": 260, "category": "Health, Habits, and Personality", "question": "Do your political or social views generally agree or differ?"}, {"id": 261, "category": "Health, Habits, and Personality", "question": "What is your spouse’s most important career goal?"}, {"id": 262, "category": "Health, Habits, and Personality", "question": "What do you consider your spouse’s greatest strength?"}, {"id": 263, "category": "Health, Habits, and Personality", "question": "What habit of your spouse is most difficult for you?"}, {"id": 264, "category": "Health, Habits, and Personality", "question": "How does your spouse usually show care or affection?"}, {"id": 265, "category": "Health, Habits, and Personality", "question": "How do you support each other physically, emotionally, or practically?"}, {"id": 266, "category": "Future Plans", "question": "Where do you plan to settle together?"}, {"id": 267, "category": "Future Plans", "question": "Why did you choose that city or region?"}, {"id": 268, "category": "Future Plans", "question": "Do you plan to rent or buy a home?"}, {"id": 269, "category": "Future Plans", "question": "Who is responsible for looking for housing?"}, {"id": 270, "category": "Future Plans", "question": "Do you plan to have children?"}, {"id": 271, "category": "Future Plans", "question": "If you do not plan to have children, have you clearly discussed and agreed on that?"}, {"id": 272, "category": "Future Plans", "question": "Have you discussed retirement or long-term care plans?"}, {"id": 273, "category": "Future Plans", "question": "What work does your spouse plan to do after receiving permanent residence?"}, {"id": 274, "category": "Future Plans", "question": "Does your spouse plan to continue studying?"}, {"id": 275, "category": "Future Plans", "question": "What travel plans do you have for the next year?"}, {"id": 276, "category": "Future Plans", "question": "How do you plan to help or care for your parents as they age?"}, {"id": 277, "category": "Future Plans", "question": "Do you plan to purchase additional joint insurance?"}, {"id": 278, "category": "Future Plans", "question": "Do you plan to combine more of your finances?"}, {"id": 279, "category": "Future Plans", "question": "If one spouse needs to relocate, who is more likely to move?"}, {"id": 280, "category": "Future Plans", "question": "What do you expect your life together to look like five years from now?"}, {"id": 281, "category": "Immigration Process", "question": "Who first suggested adding the spouse to the immigration case or pursuing an immigration benefit through the marriage?"}, {"id": 282, "category": "Immigration Process", "question": "When did you first discuss the green-card process?"}, {"id": 283, "category": "Immigration Process", "question": "Who contacted or selected the immigration lawyer?"}, {"id": 284, "category": "Immigration Process", "question": "What is the lawyer’s name or the name of the law firm?"}, {"id": 285, "category": "Immigration Process", "question": "Who paid the legal fees and filing fees?"}, {"id": 286, "category": "Immigration Process", "question": "Have you personally reviewed the forms submitted in your case?"}, {"id": 287, "category": "Immigration Process", "question": "What shared or mailing address appears on the immigration forms?"}, {"id": 288, "category": "Immigration Process", "question": "Do you know your spouse’s current immigration status?"}, {"id": 289, "category": "Immigration Process", "question": "When does your spouse’s current status expire?"}, {"id": 290, "category": "Immigration Process", "question": "Why did you choose adjustment of status or consular processing?"}, {"id": 291, "category": "Immigration Process", "question": "Why was this particular U.S. embassy or consulate selected?"}, {"id": 292, "category": "Immigration Process", "question": "Who organized the relationship evidence?"}, {"id": 293, "category": "Immigration Process", "question": "What photographs did you submit?"}, {"id": 294, "category": "Immigration Process", "question": "Who appears in the photographs?"}, {"id": 295, "category": "Immigration Process", "question": "What joint financial documents did you submit?"}, {"id": 296, "category": "Immigration Process", "question": "Why are certain common forms of joint evidence unavailable in your case?"}, {"id": 297, "category": "Immigration Process", "question": "Have you submitted additional evidence after the initial filing?"}, {"id": 298, "category": "Immigration Process", "question": "Has any information changed since the forms were filed?"}, {"id": 299, "category": "Immigration Process", "question": "Is there anything in the application that may appear inconsistent or require explanation?"}, {"id": 300, "category": "Immigration Process", "question": "Do you understand the consequences of giving false information to USCIS or a consular officer?"}, {"id": 301, "category": "Online, Rapid, or Nontraditional Marriage", "question": "Why did you choose an online wedding instead of waiting for an in-person wedding?"}, {"id": 302, "category": "Online, Rapid, or Nontraditional Marriage", "question": "How did you learn about the online-marriage process?"}, {"id": 303, "category": "Online, Rapid, or Nontraditional Marriage", "question": "Who researched whether the marriage would be legally valid?"}, {"id": 304, "category": "Online, Rapid, or Nontraditional Marriage", "question": "Where was each spouse physically located during the online ceremony?"}, {"id": 305, "category": "Online, Rapid, or Nontraditional Marriage", "question": "After the online ceremony, did you meet in person or begin living together?"}, {"id": 306, "category": "Online, Rapid, or Nontraditional Marriage", "question": "After the ceremony, did you take any steps required for the marriage to be recognized for U.S. immigration purposes?"}, {"id": 307, "category": "Online, Rapid, or Nontraditional Marriage", "question": "How many times had you met in person before marrying?"}, {"id": 308, "category": "Online, Rapid, or Nontraditional Marriage", "question": "Why was the period between meeting and marriage relatively short?"}, {"id": 309, "category": "Online, Rapid, or Nontraditional Marriage", "question": "Did either of you consider other marriage arrangements or other potential partners?"}, {"id": 310, "category": "Online, Rapid, or Nontraditional Marriage", "question": "Why did each of you ultimately choose the other?"}, {"id": 311, "category": "Online, Rapid, or Nontraditional Marriage", "question": "Was the decision to marry emotional, practical, legal, or a combination of these?"}, {"id": 312, "category": "Online, Rapid, or Nontraditional Marriage", "question": "Would you have married if there had been no immigration case?"}, {"id": 313, "category": "Online, Rapid, or Nontraditional Marriage", "question": "What responsibilities do you believe this marriage creates for each of you?"}, {"id": 314, "category": "Online, Rapid, or Nontraditional Marriage", "question": "What agreements do you have about exclusivity, living arrangements, finances, and long-term commitment?"}, {"id": 315, "category": "Online, Rapid, or Nontraditional Marriage", "question": "Why did you not begin living together immediately after the wedding?"}, {"id": 316, "category": "Online, Rapid, or Nontraditional Marriage", "question": "Why was there a period of reduced communication after the wedding?"}, {"id": 317, "category": "Online, Rapid, or Nontraditional Marriage", "question": "Do both families fully understand the nature of the marriage?"}, {"id": 318, "category": "Online, Rapid, or Nontraditional Marriage", "question": "Did either spouse receive money, compensation, or another benefit in exchange for marrying?"}, {"id": 319, "category": "Online, Rapid, or Nontraditional Marriage", "question": "Did you ever agree to divorce after one spouse received permanent residence?"}, {"id": 320, "category": "Online, Rapid, or Nontraditional Marriage", "question": "What evidence shows that you intend the marriage to continue after the immigration process is complete?"}];
+const categories = [...new Set(questions.map(q => q.category))];
+const categoryFilter = document.getElementById('categoryFilter');
+categories.forEach(c => {
+  const option = document.createElement('option');
+  option.value = c;
+  option.textContent = c;
+  categoryFilter.appendChild(option);
+});
+
+let current = null;
+let history = [];
+let historyIndex = -1;
+let sequentialIndex = 0;
+let mastered = new Set(JSON.parse(localStorage.getItem('mgc_mastered') || '[]'));
+let notesMap = JSON.parse(localStorage.getItem('mgc_notes') || '{}');
+
+const el = id => document.getElementById(id);
+
+function availableQuestions() {
+  const category = categoryFilter.value;
+  const mode = el('modeSelect').value;
+  return questions.filter(q => {
+    const categoryMatch = category === 'all' || q.category === category;
+    const masteredMatch = mode !== 'unmastered' || !mastered.has(q.id);
+    return categoryMatch && masteredMatch;
+  });
+}
+
+function saveState() {
+  localStorage.setItem('mgc_mastered', JSON.stringify([...mastered]));
+  localStorage.setItem('mgc_notes', JSON.stringify(notesMap));
+}
+
+function randomQuestion() {
+  const pool = availableQuestions();
+  if (!pool.length) {
+    alert('No questions are available under the current filters.');
+    return current;
+  }
+  if (pool.length === 1) return pool[0];
+  let next;
+  do {
+    next = pool[Math.floor(Math.random() * pool.length)];
+  } while (current && next.id === current.id);
+  return next;
+}
+
+function sequentialQuestion(direction = 1) {
+  const pool = availableQuestions();
+  if (!pool.length) {
+    alert('No questions are available under the current filters.');
+    return current;
+  }
+  sequentialIndex = (sequentialIndex + direction + pool.length) % pool.length;
+  return pool[sequentialIndex];
+}
+
+function loadQuestion(q, pushHistory = true) {
+  if (!q) return;
+  if (current) {
+    notesMap[current.id] = el('notes').value;
+    saveState();
+  }
+  current = q;
+  if (pushHistory) {
+    history = history.slice(0, historyIndex + 1);
+    history.push(q);
+    historyIndex++;
+  }
+  el('currentId').textContent = q.id;
+  el('questionNumber').textContent = `Question ${q.id}`;
+  el('categoryBadge').textContent = q.category;
+  el('questionText').textContent = q.question;
+  el('notes').value = notesMap[q.id] || '';
+  el('masterBtn').textContent = mastered.has(q.id) ? 'Unmark Mastered' : 'Mark as Mastered';
+  updateProgress();
+}
+
+function nextQuestion() {
+  const mode = el('modeSelect').value;
+  const q = mode === 'sequential' ? sequentialQuestion(1) : randomQuestion();
+  loadQuestion(q);
+}
+
+function previousQuestion() {
+  if (historyIndex > 0) {
+    if (current) {
+      notesMap[current.id] = el('notes').value;
+      saveState();
+    }
+    historyIndex--;
+    loadQuestion(history[historyIndex], false);
+  }
+}
+
+function updateProgress() {
+  el('masteredCount').textContent = mastered.size;
+  el('progressBar').style.width = `${(mastered.size / questions.length) * 100}%`;
+}
+
+el('nextBtn').addEventListener('click', nextQuestion);
+el('prevBtn').addEventListener('click', previousQuestion);
+
+el('toggleNotesBtn').addEventListener('click', () => {
+  const area = el('answerArea');
+  const show = !area.classList.contains('show');
+  area.classList.toggle('show', show);
+  el('toggleNotesBtn').textContent = show ? 'Hide Notes' : 'Show Notes';
+});
+
+el('masterBtn').addEventListener('click', () => {
+  if (!current) return;
+  if (mastered.has(current.id)) mastered.delete(current.id);
+  else mastered.add(current.id);
+  saveState();
+  el('masterBtn').textContent = mastered.has(current.id) ? 'Unmark Mastered' : 'Mark as Mastered';
+  updateProgress();
+});
+
+el('notes').addEventListener('input', () => {
+  if (!current) return;
+  notesMap[current.id] = el('notes').value;
+  saveState();
+});
+
+categoryFilter.addEventListener('change', () => {
+  sequentialIndex = -1;
+  nextQuestion();
+});
+el('modeSelect').addEventListener('change', () => {
+  sequentialIndex = -1;
+  nextQuestion();
+});
+
+el('resetBtn').addEventListener('click', () => {
+  const ok = confirm('Reset all mastered questions and saved notes?');
+  if (!ok) return;
+  mastered.clear();
+  notesMap = {};
+  saveState();
+  el('notes').value = '';
+  updateProgress();
+  if (current) el('masterBtn').textContent = 'Mark as Mastered';
+});
+
+loadQuestion(randomQuestion());
+</script>
+</body>
+</html>
